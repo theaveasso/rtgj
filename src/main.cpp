@@ -1,7 +1,9 @@
-#include "platform.hpp"
+#include "platform/platform.hpp"
 
 int main() {
-	platform_init(800, 600, "RTGJ");
+	if (!platform_init(800, 600, "RTGJ")) {
+		return 1;
+	}
 
 	while (!platform_should_quit()) {
 		platform_pump_messages();

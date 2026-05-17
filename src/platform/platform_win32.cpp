@@ -1,7 +1,8 @@
-#include "platform.hpp"
+#include "platform/platform.hpp"
 
 #ifdef _WIN32
 #include <windows.h>
+#include <cstdio>
 
 static HWND 			g_window 			= nullptr;
 static HINSTANCE 	g_instance 		= nullptr;
@@ -11,7 +12,7 @@ static const char* WINDOW_CLASS_NAME = "RTGJWindowClass";
 
 static LRESULT CALLBACK window_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
-bool platform_init(int width, int height, std::string title) {
+bool platform_init(int width, int height, const std::string& title) {
 	g_instance = GetModuleHandle(nullptr);
 
 	WNDCLASSEX wc = {};
@@ -26,6 +27,7 @@ bool platform_init(int width, int height, std::string title) {
 	wc.lpszClassName 	= WINDOW_CLASS_NAME;
 	
 	if (!RegisterClassEx(&wc)) {
+		std::fprintf(stderr, "platform_init: RegisterClassEx failed (error %lu)\n", GetLastError());
 		return false;
 	}
 
@@ -50,6 +52,7 @@ bool platform_init(int width, int height, std::string title) {
 		nullptr
 	);
 	if (!g_window) {
+		std::fprintf(stderr, "platform_init: CreateWindowEx failed (error %lu)\n", GetLastError());
 		return false;
 	}
 
@@ -82,7 +85,7 @@ void* platform_get_instance_handle() { return g_instance; }
 
 void* platform_get_window_handle() { return g_window; }
 
-LRESULT CALLBACK window_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+static LRESULT CALLBACK window_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	switch(msg) {
 		case WM_DESTROY:
 			PostQuitMessage(0);

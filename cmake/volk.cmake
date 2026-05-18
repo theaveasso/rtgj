@@ -1,5 +1,3 @@
-include(FetchContent)
-
 FetchContent_Declare(
 	volk
 	GIT_REPOSITORY https://github.com/zeux/volk.git

@@ -1,0 +1,14 @@
+{
+  "clangd.arguments": [
+    "--compile-commands-dir=build",
+    "--background-index",
+    "--header-insertion=never"
+  ],
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "cmake.useCMakePresets": "never",
+  "cmake.generator": "Ninja Multi-Config",
+  "files.associations": {
+    "*.hpp": "cpp",
+    "*.cpp": "cpp"
+  }
+}

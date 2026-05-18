@@ -1,0 +1,25 @@
+# clang-format style for rtgj. Applied by clangd's formatter on save.
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: c++20
+
+# ColumnLimit 0 = no width limit: clang-format never breaks a line for length.
+# This is the whole reason for this file — long lines stay on one line.
+ColumnLimit: 0
+
+# Indent with tabs; keep alignment padding as spaces so aligned columns
+# (the #define values below, aligned = signs) stay lined up at any tab width.
+UseTab: ForIndentation
+TabWidth: 4
+IndentWidth: 4
+
+# Alignment — matches the hand-aligned style already in platform_win32.cpp.
+AlignConsecutiveMacros: Consecutive
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+
+# You write `char*`, not `char *` — keep the star on the type.
+PointerAlignment: Left
+
+# Never reorder #includes. Order matters for <windows.h> and friends.
+SortIncludes: Never

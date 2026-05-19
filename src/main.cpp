@@ -1,18 +1,16 @@
 #include "core/logger.hpp"
 #include "platform/platform.hpp"
+#include "renderer/renderer.hpp"
 
 int main() {
-	if (!logger_init() || !platform_init(800, 600, "RTGJ")) {
+	if (
+		!logger_init() || 
+		!platform_init(800, 600, "RTGJ") || 
+		!renderer_init()
+	) {
 		RTGJ_LOG_CRITICAL("Failed to init systems");
 		return 1;
 	}
-
-	RTGJ_LOG_TRACE("Trace");
-	RTGJ_LOG_DEBUG("Debug");
-	RTGJ_LOG_WARN("Warn");
-	RTGJ_LOG_INFO("Info");
-
-	RTGJ_ASSERT(1 != 1, "Testing assertion");
 
 	while (!platform_should_quit()) {
 		platform_pump_messages();

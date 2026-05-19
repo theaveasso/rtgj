@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(${PROJECT_NAME}
 	src/core/logger.cpp
 	src/platform/platform_win32.cpp
+	src/renderer/renderer_vk.cpp
 	src/main.cpp
 )
 
@@ -23,7 +24,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 )
 
 if (WIN32)
-target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32_LEAN_AND_MEAN)
+target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32_LEAN_AND_MEAN VK_USE_PLATFORM_WIN32_KHR)
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

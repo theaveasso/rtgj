@@ -12,6 +12,8 @@ int main() {
 	RTGJ_LOG_WARN("Warn");
 	RTGJ_LOG_INFO("Info");
 
+	RTGJ_ASSERT(1 != 1, "Testing assertion");
+
 	while (!platform_should_quit()) {
 		platform_pump_messages();
 	}

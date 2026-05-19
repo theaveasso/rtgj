@@ -12,23 +12,29 @@ void logger_shutdown();
 #define RTGJ_LOG_ERROR(...)    SPDLOG_ERROR(__VA_ARGS__)
 #define RTGJ_LOG_CRITICAL(...) SPDLOG_CRITICAL(__VA_ARGS__)
 
-#ifdef NDEBUG
-#define RTGJ_ASSERT(condition, message)
-do {
-	if (!(condition)) {
-		throw std::runtime_error(message);
-	}
-} while (false)
-#else
-#define ASSERT(condition, message) assert((condition) && (message))
+#if defined(RTGJ_DEBUG)
+#if defined(_MSC_VER)
+#define RTGJ_ASSERT(condition, message)                                       \
+	do {                                                                      \
+		if (!(condition)) {                                                   \
+			RTGJ_LOG_ERROR("assertion failed: ({}) {}", #condition, message); \
+			__debugbreak();                                                   \
+		}                                                                     \
+	} while (false)
+#elif defined(__GNUC__) || defined(__clang)
+#define RTGJ_ASSERT(condition, message)                                       \
+	do {                                                                      \
+		if (!(condition)) {                                                   \
+			RTGJ_LOG_ERROR("assertion failed: ({}) {}", #condition, message); \
+			__builtin_debugtrap();                                            \
+		}                                                                     \
+	} while (false)
 #endif
-
-    // #define VK_CHECK(vk_func) \
-// 	do {
-    //     if (const VkResult check_result = (vk_func); check_result != VK_SUCCESS) {
-    // 	const char* err = string_VkResult(check_result);
-    // 	RTGJ_LOG_ERROR(...);
-    // 	RTGJ_ASSERT(check_result == VK_SUCCESS, err);
-    // }
-    // }
-    // while (0)
+#else
+#define RTGJ_ASSERT(condition, message) \
+	do {
+(void)sizeof(condition);
+(void)sizeof(message);
+}
+while (false)
+#endif

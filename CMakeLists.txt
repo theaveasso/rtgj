@@ -19,6 +19,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE volk spdlog::spdlog)
 target_compile_definitions(${PROJECT_NAME} PRIVATE 
 	VK_NO_PROTOTYPES
 	SPDLOG_ACTIVE_LEVEL=$<IF:$<CONFIG:Debug>,SPDLOG_LEVEL_TRACE,SPDLOG_LEVEL_INFO>
+	$<$<CONFIG:DEBUG>:RTGJ_DEBUG>
 )
 
 if (WIN32)

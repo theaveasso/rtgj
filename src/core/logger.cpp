@@ -14,12 +14,12 @@ bool logger_init() {
 	auto rotate_sink  = std::make_shared<spdlog::sinks::rotating_file_sink_mt>("logs/rtgj.log", logger_max_file_size, logger_max_files);
 
 	g_logger = std::make_shared<spdlog::logger>("rtgj_logger", spdlog::sinks_init_list{console_sink, rotate_sink});
-#ifdef NDEBUG
+#if defined (RTGJ_DEBUG)
 	g_logger->set_level(spdlog::level::trace);
 #else
 	g_logger->set_level(spdlog::level::info);
 #endif
-	g_logger->set_pattern("[%H:%M:%S %z] [%^%L%$] [thread %t] %v");
+	g_logger->set_pattern("[%H:%M:%S %z] [%^%L%$] [thread %t] %v %@");
 	spdlog::flush_on(spdlog::level::warn);
 	spdlog::set_default_logger(g_logger);
 
